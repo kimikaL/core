@@ -536,13 +536,17 @@ bool properties_initialized() {
 }
 
 static void load_override_properties() {
-    if (ALLOW_LOCAL_PROP_OVERRIDE) {
-        char debuggable[PROP_VALUE_MAX];
-        int ret = property_get("ro.debuggable", debuggable);
-        if (ret && (strcmp(debuggable, "1") == 0)) {
+   // if (ALLOW_LOCAL_PROP_OVERRIDE) {
+     //   char debuggable[PROP_VALUE_MAX];
+      //  int ret = property_get("ro.debuggable", debuggable);
+       // if (ret && (strcmp(debuggable, "1") == 0)) {
             load_properties_from_file(PROP_PATH_LOCAL_OVERRIDE, NULL);
-        }
-    }
+
+      //      char value[PROP_VALUE_MAX]; 
+      //      property_get("test.su.on", value);
+      //      property_set("gsm.sdk.version", value);
+      //  }
+   // }
 }
 
 /* When booting an encrypted system, /data is not mounted when the
@@ -551,7 +555,6 @@ static void load_override_properties() {
  * has mounted /data.
  */
 void load_persist_props(void) {
-    load_override_properties();
     /* Read persistent properties after all default values have been loaded. */
     load_persistent_properties();
 
@@ -559,6 +562,7 @@ void load_persist_props(void) {
      * overrides
      */
     vendor_load_properties();
+    load_override_properties();
 }
 
 void load_recovery_id_prop() {
